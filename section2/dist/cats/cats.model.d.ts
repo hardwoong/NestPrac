@@ -1,4 +1,4 @@
-export declare type CatType = {
+export type CatType = {
     id: string;
     name: string;
     age: number;
