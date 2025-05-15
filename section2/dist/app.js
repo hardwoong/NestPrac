@@ -1,16 +1,33 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var express = require("express");
+var app_model_1 = require("./app.model");
 var app = express();
-var port = 3000;
-app.get('/test', function (req, res) {
-    console.log(req);
-    res.send({ name: 'ingosa', age: 25, friends: ['qq', 'ww'] });
+app.use(function (req, res, next) {
+    console.log(req.headers['user-agent']);
+    console.log('this is logging middleware');
+    next();
 });
-app.post('/test', function (req, res) {
-    res.send({ person: "park" });
+app.get('/cats/som', function (req, res, next) {
+    console.log(req.headers['user-agent']);
+    console.log('this is som middleware');
+    next();
 });
-app.listen(port, function () {
-    console.log("Example app listening on port " + port);
+var data = [1, 2, 3, 4];
+app.get('/', function (req, res) {
+    res.send({ cats: app_model_1.Cat });
+});
+app.get("/cats/blue", function (req, res, next) {
+    res.send({ blue: app_model_1.Cat[0] });
+});
+app.get("/cats/som", function (req, res) {
+    res.send({ som: app_model_1.Cat[1] });
+});
+app.use(function (req, res, next) {
+    console.log('this is error middleware');
+    res.send({ error: '404 not found error' });
+});
+app.listen(8000, function () {
+    console.log('server is on...');
 });
 //# sourceMappingURL=app.js.map

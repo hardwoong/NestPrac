@@ -1,4 +1,4 @@
-//* https://www.staging-typescript.org/tsconfig
+// * https://www.staging-typescript.org/tsconfig
 
 {
     "compilerOptions": {
