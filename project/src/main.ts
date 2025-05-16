@@ -1,4 +1,4 @@
-import { HttpExceptionFilter } from 'src/common/excoptions/http-exception.filter';
+import { HttpExceptionFilter } from './common/excoptions/http-exception.filter';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 
