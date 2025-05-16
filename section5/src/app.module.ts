@@ -6,14 +6,23 @@ import { LoggerMiddleware } from './logger/logger.middleware';
 import { MongooseModule } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
 import { ConfigModule } from '@nestjs/config';
+import { AuthModule } from './auth/auth.module';
+import { PassportModule } from '@nestjs/passport';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
+    PassportModule.register({ defaultStrategy: 'jwt', session: false }),
+    JwtModule.register({
+      secret: process.env.JWT_SECRET,
+      signOptions: { expiresIn: '1y' },
+    }),
     ConfigModule.forRoot(),
     MongooseModule.forRoot(
       process.env.MONGODB_URI ?? 'mongodb://localhost/nest',
     ),
     CatsModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
