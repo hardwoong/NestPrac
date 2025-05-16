@@ -1,5 +1,5 @@
 import { CommentsCreateDto } from '../dtos/comments.create.dto';
-import { CommentsService } from './../services/comments.service';
+import { CommentsService } from '../services/comments.service';
 import { Controller, Get, Param, Post, Body, Patch } from '@nestjs/common';
 import { ApiOperation } from '@nestjs/swagger';
 

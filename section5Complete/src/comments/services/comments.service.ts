@@ -1,5 +1,5 @@
 import { CatsRepository } from 'src/cats/cats.repository';
-import { CommentsCreateDto } from './../dtos/comments.create.dto';
+import { CommentsCreateDto } from '../dtos/comments.create.dto';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Comments } from '../comments.schema';
@@ -23,18 +23,13 @@ export class CommentsService {
 
   async createComment(id: string, commentData: CommentsCreateDto) {
     try {
-      const targetCat =
-        await this.catsRepository.findCatByIdWithoutPassword(id);
-      if (!targetCat) {
-        throw new BadRequestException('Target cat not found');
-      }
+      const targetCat = await this.catsRepository.findCatByIdWithoutPassword(
+        id,
+      );
       const { contents, author } = commentData;
 
       const validatedAuthor =
-        await this.catsRepository.findCatByIdWithoutPassword(author.toString());
-      if (!validatedAuthor) {
-        throw new BadRequestException('Author not found');
-      }
+        await this.catsRepository.findCatByIdWithoutPassword(author);
 
       const newComment = new this.commentsModel({
         author: validatedAuthor._id,
@@ -50,13 +45,8 @@ export class CommentsService {
   async plusLike(id: string) {
     try {
       const comment = await this.commentsModel.findById(id);
-      if (!comment) {
-        throw new BadRequestException('Comment not found');
-      }
       comment.likeCount += 1;
       return await comment.save();
-    } catch (error) {
-      throw new BadRequestException(error.message);
-    }
+    } catch (error) {}
   }
 }
